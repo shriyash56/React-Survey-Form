@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { useToasts } from "react-toast-notifications";
 import CreateSurvey from "./CreateSurvey";
 import "../css/App.css";
 import { SurveyContext } from "./SurveyContext";
@@ -8,6 +9,8 @@ export default function Singleselect() {
   const [question, setQuestion] = useState("");
   const [options, setOptions] = useState(["", ""]);
   const [survey, setSurvey] = useContext(SurveyContext);
+
+  const { addToast } = useToasts();
 
   const handleQuestion = (e) => {
     setQuestion(e.target.value);
@@ -44,6 +47,12 @@ export default function Singleselect() {
       setSurvey(obj);
       setQuestion("");
       setOptions(["", ""]);
+    }
+    else {
+      addToast("Please Enter Question and Options", {
+        appearance: 'warning',
+        autoDismiss: true,
+      });
     }
   };
 

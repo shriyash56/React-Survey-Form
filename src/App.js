@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import { ToastProvider } from "react-toast-notifications";
 import app from "./components/App";
 import CreateSurvey from "./components/CreateSurvey";
 import TakeSurvey from "./components/TakeSurvey";
@@ -10,7 +11,7 @@ import { ContextQuestions } from "./components/SurveyContext";
 
 export default function App() {
   return (
-    <>
+    <ToastProvider autoDismissTimeout={3000}>
       <Router>
         <ContextQuestions>
           <Switch>
@@ -31,6 +32,6 @@ export default function App() {
           </Switch>
         </ContextQuestions>
       </Router>
-    </>
+      </ToastProvider>
   );
 }

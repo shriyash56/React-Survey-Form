@@ -1,5 +1,6 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useToasts } from "react-toast-notifications";
 import logo from "../logo.png";
 import { SurveyContext } from "./SurveyContext";
 import "../css/showquestion.css";
@@ -8,6 +9,23 @@ import "../css/takesurvey.css";
 
 export default function TakeSurvey() {
   const [survey] = useContext(SurveyContext);
+  const { addToast } = useToasts();
+
+  useEffect(() => {
+    if (survey.length === 0) {
+      addToast("Survey form was not created", {
+        appearance: "warning",
+        autoDismiss: true,
+      });
+    }
+  }, []);
+
+  const handleSubmit = () => {
+    addToast("Successfully Submitted Survey", {
+      appearance: "success",
+      autoDismiss: true,
+    });
+  };
 
   return (
     <>
@@ -77,19 +95,36 @@ export default function TakeSurvey() {
             );
           })}
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <Link to="/">
-              <button
-                style={{
-                  padding: "4px",
-                  backgroundColor: "brown",
-                  color: "white",
-                  border: "1px solid black",
-                  borderRadius: "3px",
-                }}
-              >
-                Submit
-              </button>
-            </Link>
+            {survey.length === 0 ? (
+              <Link to="/">
+                <button
+                  style={{
+                    padding: "4px",
+                    backgroundColor: "brown",
+                    color: "white",
+                    border: "1px solid black",
+                    borderRadius: "3px",
+                  }}
+                >
+                  Back
+                </button>
+              </Link>
+            ) : (
+              <Link to="/">
+                <button
+                  style={{
+                    padding: "4px",
+                    backgroundColor: "brown",
+                    color: "white",
+                    border: "1px solid black",
+                    borderRadius: "3px",
+                  }}
+                  onClick={handleSubmit}
+                >
+                  Submit
+                </button>
+              </Link>
+            )}
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import { useToasts } from "react-toast-notifications";
 import CreateSurvey from "./CreateSurvey";
 import "../css/App.css";
 import { SurveyContext } from "./SurveyContext";
@@ -8,6 +9,8 @@ export default function Multiselect() {
   const [question, setQuestion] = useState("");
   const [options, setOptions] = useState([""]);
   const [survey, setSurvey] = useContext(SurveyContext);
+
+  const { addToast } = useToasts();
 
   const handleQuestion = (e) => {
     setQuestion(e.target.value);
@@ -35,15 +38,18 @@ export default function Multiselect() {
 
   const addQuestion = () => {
     if (question !== "" && !options.includes("")) {
-      let obj = [ ...survey ];
-      obj= [
-        ...obj,
-        { Question: question, Option: options },
-      ];
+      let obj = [...survey];
+      obj = [...obj, { Question: question, Option: options }];
       console.log(obj);
       setSurvey(obj);
       setQuestion("");
       setOptions([""]);
+    }
+    else {
+      addToast("Please Enter Question and Options", {
+        appearance: "warning",
+        autoDismiss: true,
+      });
     }
   };
 
